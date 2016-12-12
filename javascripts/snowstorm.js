@@ -4,8 +4,8 @@ var snowStorm = (function(window, document) {
 
   this.autoStart = true;          // Whether the snow should start automatically or not.
   this.excludeMobile = true;      // Snow is likely to be bad news for mobile phones' CPUs (and batteries.) Enable at your own risk.
-  this.flakesMax = 1128;           // Limit total amount of snow made (falling + sticking)
-  this.flakesMaxActive = 164;      // Limit amount of snow falling at once (less = lower CPU use)
+  this.flakesMax = 11128;           // Limit total amount of snow made (falling + sticking)
+  this.flakesMaxActive = 1164;      // Limit amount of snow falling at once (less = lower CPU use)
   this.animationInterval = 20;    // Theoretical "miliseconds per frame" measurement. 20 = fast + smooth, but high CPU use. 50 = more conservative, but slower
   this.useGPU = true;             // Enable transform-based hardware acceleration, reduce CPU load.
   this.className = null;          // CSS class name for further customization on snow elements
@@ -70,7 +70,7 @@ var snowStorm = (function(window, document) {
      */
 
     function timeoutShim(callback) {
-      window.setTimeout(callback, 1000/(storm.animationInterval || 20));
+      window.setTimeout(callback, 1000/(storm.animationInterval || 1));
     }
 
     var _animationFrame = (window.requestAnimationFrame ||
@@ -131,7 +131,7 @@ var snowStorm = (function(window, document) {
   this.flakes = [];
   this.disabled = false;
   this.active = false;
-  this.meltFrameCount = 20;
+  this.meltFrameCount = 20000000000;
   this.meltFrames = [];
 
   this.setXY = function(o, x, y) {
@@ -583,7 +583,7 @@ var snowStorm = (function(window, document) {
     if (storm.followMouse) {
       storm.events.add(isIE?document:window,'mousemove',storm.mouseMove);
     }
-    storm.animationInterval = Math.max(20,storm.animationInterval);
+    storm.animationInterval = 1'
     storm.timerInit();
   };
 
