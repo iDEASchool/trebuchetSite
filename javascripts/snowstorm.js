@@ -4,20 +4,20 @@ var snowStorm = (function(window, document) {
 
   this.autoStart = true;          // Whether the snow should start automatically or not.
   this.excludeMobile = true;      // Snow is likely to be bad news for mobile phones' CPUs (and batteries.) Enable at your own risk.
-  this.flakesMax = 128;           // Limit total amount of snow made (falling + sticking)
-  this.flakesMaxActive = 64;      // Limit amount of snow falling at once (less = lower CPU use)
-  this.animationInterval = 33;    // Theoretical "miliseconds per frame" measurement. 20 = fast + smooth, but high CPU use. 50 = more conservative, but slower
+  this.flakesMax = 11128;           // Limit total amount of snow made (falling + sticking)
+  this.flakesMaxActive = 1164;      // Limit amount of snow falling at once (less = lower CPU use)
+  this.animationInterval = 20;    // Theoretical "miliseconds per frame" measurement. 20 = fast + smooth, but high CPU use. 50 = more conservative, but slower
   this.useGPU = true;             // Enable transform-based hardware acceleration, reduce CPU load.
   this.className = null;          // CSS class name for further customization on snow elements
   this.excludeMobile = true;      // Snow is likely to be bad news for mobile phones' CPUs (and batteries.) By default, be nice.
   this.flakeBottom = null;        // Integer for Y axis snow limit, 0 or null for "full-screen" snow effect
   this.followMouse = true;        // Snow movement can respond to the user's mouse
-  this.snowColor = '#333';        // Don't eat (or use?) yellow snow.
+  this.snowColor = '#ffffff';        // Don't eat (or use?) yellow snow.
   this.snowCharacter = '&bull;';  // &bull; = bullet, &middot; is square on some systems etc.
   this.snowStick = true;          // Whether or not snow should "stick" at the bottom. When off, will never collect.
-  this.targetElement = null;      // element which snow will be appended to (null = document.body) - can be an element ID eg. 'myDiv', or a DOM node reference
+  this.targetElement = 'snowPile';      // element which snow will be appended to (null = document.body) - can be an element ID eg. 'myDiv', or a DOM node reference
   this.useMeltEffect = true;      // When recycling fallen snow (or rarely, when falling), have it "melt" and fade out if browser supports it
-  this.useTwinkleEffect = false;  // Allow snow to randomly "flicker" in and out of view while falling
+  this.useTwinkleEffect = true;  // Allow snow to randomly "flicker" in and out of view while falling
   this.usePositionFixed = false;  // true = snow does not shift vertically when scrolling. May increase CPU load, disabled by default - if enabled, used only where supported
   this.usePixelPosition = false;  // Whether to use pixel values for snow top/left vs. percentages. Auto-enabled if body is position:relative or targetElement is specified.
 
@@ -70,7 +70,7 @@ var snowStorm = (function(window, document) {
      */
 
     function timeoutShim(callback) {
-      window.setTimeout(callback, 1000/(storm.animationInterval || 20));
+      window.setTimeout(callback, 1000/(storm.animationInterval || 1));
     }
 
     var _animationFrame = (window.requestAnimationFrame ||
@@ -131,7 +131,7 @@ var snowStorm = (function(window, document) {
   this.flakes = [];
   this.disabled = false;
   this.active = false;
-  this.meltFrameCount = 20;
+  this.meltFrameCount = 20000000000;
   this.meltFrames = [];
 
   this.setXY = function(o, x, y) {
@@ -583,10 +583,9 @@ var snowStorm = (function(window, document) {
     if (storm.followMouse) {
       storm.events.add(isIE?document:window,'mousemove',storm.mouseMove);
     }
-    storm.animationInterval = Math.max(20,storm.animationInterval);
+    storm.animationInterval = 1'
     storm.timerInit();
   };
-
   this.start = function(bFromOnLoad) {
     if (!didInit) {
       didInit = true;
@@ -627,7 +626,6 @@ var snowStorm = (function(window, document) {
       storm.active = true;
     }
   };
-
   function doDelayedStart() {
     window.setTimeout(function() {
       storm.start(true);
@@ -635,7 +633,6 @@ var snowStorm = (function(window, document) {
     // event cleanup
     storm.events.remove(isIE?document:window,'mousemove',doDelayedStart);
   }
-
   function doStart() {
     if (!storm.excludeMobile || !isMobile) {
       doDelayedStart();
@@ -643,12 +640,9 @@ var snowStorm = (function(window, document) {
     // event cleanup
     storm.events.remove(window, 'load', doStart);
   }
-
   // hooks for starting the snow
   if (storm.autoStart) {
     storm.events.add(window, 'load', doStart, false);
   }
-
   return this;
-
 }(window, document));
