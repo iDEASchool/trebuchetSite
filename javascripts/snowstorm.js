@@ -583,7 +583,7 @@ var snowStorm = (function(window, document) {
     if (storm.followMouse) {
       storm.events.add(isIE?document:window,'mousemove',storm.mouseMove);
     }
-    storm.animationInterval = 1'
+    storm.animationInterval = 1;
     storm.timerInit();
   };
   this.start = function(bFromOnLoad) {
